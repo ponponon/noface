@@ -1,48 +1,53 @@
 <template>
-  <el-row class="mb-4">
-    <el-button>Default</el-button>
-    <el-button type="primary">Primary</el-button>
-    <el-button type="success">Success</el-button>
-    <el-button type="info">Info</el-button>
-    <el-button type="warning">Warning</el-button>
-    <el-button type="danger">Danger</el-button>
-  </el-row>
-
-  <el-row class="mb-4">
-    <el-button plain>Plain</el-button>
-    <el-button type="primary" plain>Primary</el-button>
-    <el-button type="success" plain>Success</el-button>
-    <el-button type="info" plain>Info</el-button>
-    <el-button type="warning" plain>Warning</el-button>
-    <el-button type="danger" plain>Danger</el-button>
-  </el-row>
-
-  <el-row class="mb-4">
-    <el-button round>Round</el-button>
-    <el-button type="primary" round>Primary</el-button>
-    <el-button type="success" round>Success</el-button>
-    <el-button type="info" round>Info</el-button>
-    <el-button type="warning" round>Warning</el-button>
-    <el-button type="danger" round>Danger</el-button>
-  </el-row>
-
-  <el-row>
-    <el-button :icon="Search" circle />
-    <el-button type="primary" :icon="Edit" circle />
-    <el-button type="success" :icon="Check" circle />
-    <el-button type="info" :icon="Message" circle />
-    <el-button type="warning" :icon="Star" circle />
-    <el-button type="danger" :icon="Delete" circle />
-  </el-row>
+  <div>
+    <input type="file" ref="fileInput" @change="onFileChange">
+    <button @click="uploadFile">上传文件</button>
+    <div v-if="response">
+      <p>ID: {{ response[0][0].id }}</p>
+      <p>创建时间: {{ response[0][0].created_at }}</p>
+      <p>更新时间: {{ response[0][0].updated_at }}</p>
+      <p>人员ID: {{ response[0][0].person_id }}</p>
+      <p>哈希码: {{ response[0][0].hash_code }}</p>
+      <p>文件路径: {{ response[0][0].file_path }}</p>
+    </div>
+  </div>
 </template>
 
-<script lang="ts" setup>
-import {
-  Check,
-  Delete,
-  Edit,
-  Message,
-  Search,
-  Star,
-} from '@element-plus/icons-vue'
+<script>
+import { ref } from 'vue';
+
+export default {
+  setup() {
+    const file = ref(null);
+    const response = ref(null);
+
+    const onFileChange = (e) => {
+      file.value = e.target.files[0];
+    };
+
+    const uploadFile = async () => {
+      const formData = new FormData();
+      formData.append('file', file.value);
+
+      try {
+        const response = await fetch('http://127.0.0.1:6200/sample/image_file', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await response.json();
+        response.value = data;
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    return {
+      file,
+      response,
+      onFileChange,
+      uploadFile
+    };
+  }
+};
 </script>
