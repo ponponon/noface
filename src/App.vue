@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="file" ref="fileInput" @change="onFileChange">
+    <input type="file" ref="fileInput" @change="onFileChange" />
     <button @click="uploadFile">上传文件</button>
     <div v-if="response">
       <p>ID: {{ response[0][0].id }}</p>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 export default {
   setup() {
@@ -27,15 +27,19 @@ export default {
 
     const uploadFile = async () => {
       const formData = new FormData();
-      formData.append('file', file.value);
+      formData.append("file", file.value);
 
       try {
-        const response = await fetch('http://127.0.0.1:6200/sample/image_file', {
-          method: 'POST',
-          body: formData
-        });
+        const response2 = await fetch(
+          "http://127.0.0.1:6200/sample/image_file",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
 
-        const data = await response.json();
+        const data = await response2.json();
+        console.log(data);
         response.value = data;
       } catch (error) {
         console.error(error);
@@ -46,8 +50,8 @@ export default {
       file,
       response,
       onFileChange,
-      uploadFile
+      uploadFile,
     };
-  }
+  },
 };
 </script>
