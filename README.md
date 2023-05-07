@@ -1,40 +1,103 @@
-# noface
+```vue
+<template>
+  <div>
+    <input type="file" ref="fileInput" @change="onFileChange" />
+    <button @click="uploadFile">上传文件</button>
+    <div v-if="response">
+      <p>ID: {{ response[0][0].id }}</p>
+      <p>创建时间: {{ response[0][0].created_at }}</p>
+      <p>更新时间: {{ response[0][0].updated_at }}</p>
+      <p>人员ID: {{ response[0][0].person_id }}</p>
+      <p>哈希码: {{ response[0][0].hash_code }}</p>
+      <p>文件路径: {{ response[0][0].file_path }}</p>
+    </div>
+  </div>
+</template>
 
-This template should help get you started developing with Vue 3 in Vite.
+<script>
+import { ref } from "vue";
 
-## Recommended IDE Setup
+export default {
+  setup() {
+    const file = ref(null);
+    const response = ref(null);
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+    const onFileChange = (e) => {
+      file.value = e.target.files[0];
+    };
 
-## Type Support for `.vue` Imports in TS
+    const uploadFile = async () => {
+      const formData = new FormData();
+      formData.append("file", file.value);
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+      try {
+        const response2 = await fetch(
+          "http://127.0.0.1:6200/sample/image_file",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+        const data = await response2.json();
+        console.log(data);
+        response.value = data;
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+    return {
+      file,
+      response,
+      onFileChange,
+      uploadFile,
+    };
+  },
+};
+</script>
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
 ```
 
-### Compile and Hot-Reload for Development
+response 格式如下，如何修改上面的代码，以列表显示所有结果
 
-```sh
-npm run dev
 ```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
+[
+    [
+        {
+            "id": 2,
+            "created_at": "2023-04-16T15:42:27",
+            "updated_at": "2023-04-16T15:42:27",
+            "person_id": 1,
+            "hash_code": "66dec605fc2e53c874dd678dffdbf123",
+            "file_path": "person/image/66dec605fc2e53c874dd678dffdbf123/2544.jpg_wh860.jpg"
+        },
+        {
+            "id": 3,
+            "created_at": "2023-04-16T15:42:27",
+            "updated_at": "2023-04-16T15:42:27",
+            "person_id": 2,
+            "hash_code": "66dec605fc2e53c874dd678dffdbf123",
+            "file_path": "person/image/66dec605fc2e53c874dd678dffdbf123/2544.jpg_wh860.jpg"
+        }
+    ],
+    [
+        {
+            "id": 2,
+            "created_at": "2023-04-16T15:42:27",
+            "updated_at": "2023-04-16T15:42:27",
+            "person_id": 1,
+            "hash_code": "66dec605fc2e53c874dd678dffdbf123",
+            "file_path": "person/image/66dec605fc2e53c874dd678dffdbf123/2544.jpg_wh860.jpg"
+        },
+        {
+            "id": 3,
+            "created_at": "2023-04-16T15:42:27",
+            "updated_at": "2023-04-16T15:42:27",
+            "person_id": 2,
+            "hash_code": "66dec605fc2e53c874dd678dffdbf123",
+            "file_path": "person/image/66dec605fc2e53c874dd678dffdbf123/2544.jpg_wh860.jpg"
+        }
+    ]
+]
 ```

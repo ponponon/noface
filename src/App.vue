@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div>
     <input type="file" ref="fileInput" @change="onFileChange" />
     <button @click="uploadFile">上传文件</button>
@@ -9,6 +9,30 @@
       <p>人员ID: {{ response[0][0].person_id }}</p>
       <p>哈希码: {{ response[0][0].hash_code }}</p>
       <p>文件路径: {{ response[0][0].file_path }}</p>
+    </div>
+  </div>
+</template> -->
+
+<template>
+  <div>
+    <input type="file" ref="fileInput" @change="onFileChange" />
+    <button @click="uploadFile">上传文件</button>
+    <div v-if="response">
+      <ul>
+        <li v-for="group in response" :key="group[0].id">
+          <ul>
+            <li v-for="item in group" :key="item.id">
+              <p>ID: {{ item.id }}</p>
+              <p>创建时间: {{ item.created_at }}</p>
+              <p>更新时间: {{ item.updated_at }}</p>
+              <p>人员ID: {{ item.person_id }}</p>
+              <p>哈希码: {{ item.hash_code }}</p>
+              <p>文件路径: {{ item.file_path }}</p>
+              <img :src="imageUrl(item.file_path)" />
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -46,11 +70,16 @@ export default {
       }
     };
 
+    const imageUrl = (filePath) => {
+      return `http://192.168.31.245:9000/whoisface/${filePath}`;
+    };
+
     return {
       file,
       response,
       onFileChange,
       uploadFile,
+      imageUrl
     };
   },
 };
