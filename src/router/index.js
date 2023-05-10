@@ -3,6 +3,8 @@ import Home from "@/views/Home.vue";
 import About from "@/views/About.vue";
 import ListMeta from "@/views/ListMeta.vue";
 import UploadSample from "@/views/UploadSample.vue";
+import Search from "@/views/Search.vue";
+import TextSearch from "@/views/TextSearch.vue";
 
 const routes = [
   {
@@ -24,7 +26,17 @@ const routes = [
     path: "/upload_sample",
     name: "UploadSample",
     component: UploadSample,
-  }
+  },
+  {
+    path: "/search",
+    name: "Search",
+    component: Search,
+  },
+  {
+    path: "/text_search",
+    name: "TextSearch",
+    component: TextSearch,
+  },
 ];
 
 const router = createRouter({
