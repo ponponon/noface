@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/Home.vue";
 import About from "@/views/About.vue";
 import ListMeta from "@/views/ListMeta.vue";
+import UploadSample from "@/views/UploadSample.vue";
 
 const routes = [
   {
@@ -19,11 +20,11 @@ const routes = [
     name: "ListMeta",
     component: ListMeta,
   },
-  // {
-  //   path: "/upload_sample",
-  //   name: "UploadSample",
-  //   component: UploadSample,
-  // },
+  {
+    path: "/upload_sample",
+    name: "UploadSample",
+    component: UploadSample,
+  }
 ];
 
 const router = createRouter({
