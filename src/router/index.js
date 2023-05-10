@@ -19,6 +19,11 @@ const routes = [
     name: "ListMeta",
     component: ListMeta,
   },
+  // {
+  //   path: "/upload_sample",
+  //   name: "UploadSample",
+  //   component: UploadSample,
+  // },
 ];
 
 const router = createRouter({

@@ -1,12 +1,7 @@
 <template>
   <div>
     <h1>Home Page</h1>
-    <p>Welcome to the home page!</p>
+    <button @click="$router.push({ name: 'About' })">Go to About page</button>
+    <button @click="$router.push({ name: 'ListMeta' })">Go to Contact page</button>
   </div>
 </template>
-
-<script>
-export default {
-  name: "Home",
-};
-</script>
