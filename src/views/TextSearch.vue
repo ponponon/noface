@@ -8,11 +8,23 @@
   <div v-if="result">
     <h3>搜索结果</h3>
     <div v-for="(item, index) in result" :key="index">
-      <p>identifier: {{ item.identifier }}</p>
+      <!-- <a :href="link">链接 -->
+
+      <a
+        :href="
+          'http://text-search.mediawise.vobile.cn/meta/text?meta_uuid=' +
+          item.identifier
+        "
+        target="_blank"
+      >
+        <p>identifier: {{ item.identifier }}</p>
+      </a>
       <p>score: {{ item.score }}</p>
       <ul>
         <li v-for="(match, i) in item.extra.matches" :key="i">{{ match }}</li>
       </ul>
+      <p>母本总句子数: {{ item.extra.bank_text_length }}</p>
+      <p>匹配上了样本句子数: {{ item.extra.dup_text_length }}</p>
     </div>
   </div>
 </template>
