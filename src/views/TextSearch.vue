@@ -7,7 +7,7 @@
   </div>
   <div v-if="result">
     <h3>搜索结果</h3>
-    <div v-for="(item, index) in result" :key="index">
+    <div v-for="(item, index) in result" :key="index" class="result-item">
       <!-- <a :href="link">链接 -->
 
       <a
@@ -68,5 +68,12 @@ export default {
   align-items: center;
   height: 100vh;
   padding: 0 20%;
+}
+.result-item {
+  /* height: 40px;
+  width: 70%; */
+  border: 1px solid var(--el-border-color);
+  border-radius: 0;
+  margin-top: 20px;
 }
 </style>
